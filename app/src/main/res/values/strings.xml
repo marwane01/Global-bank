@@ -1,12 +1,12 @@
 <resources>
     <string name="app_name">Global bank</string>
-    <string name="password_hint">password</string>
+    <string name="password_hint">Password</string>
     <string name="email_hint">Email</string>
     <string name="name_hint">Name</string>
     <string name="register_btn_text">REGISTER</string>
-    <string name="already_have_an_account">Already have an account ? <font color='#EE5B25'>Login</font></string>
+    <string name="already_have_an_account">Already have an account ? <font color='#00BB9E'>Login</font></string>
     <string name="forgot_password">Forgot Password ?</string>
     <string name="login_btn_text">LOGIN</string>
-    <string name="dont_have_an_account">Don\'t have an Account ? <font color='#EE5B25'>Register</font></string>
+    <string name="dont_have_an_account">Don\'t have an Account ? <font color='#00BB9E'>Register</font></string>
 
 </resources>

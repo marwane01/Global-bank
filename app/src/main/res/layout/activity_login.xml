@@ -6,12 +6,7 @@
     android:layout_height="match_parent"
     android:focusableInTouchMode="true"
     android:background="@drawable/aaaaae"
-    tools:context=".Register_Activity">
-
-
-
-
-
+    tools:context=".Login_Activity">
 
 
 
@@ -31,11 +26,13 @@
 
 
     <LinearLayout
+        android:id="@+id/txt_forget_password"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_alignParentBottom="true"
         android:layout_centerHorizontal="true"
-        android:layout_marginBottom="30dp"
+        android:layout_marginBottom="60dp"
+
         android:orientation="vertical"
         android:paddingLeft="32dp"
         android:paddingRight="32dp">
@@ -43,88 +40,65 @@
         <com.google.android.material.textfield.TextInputLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginBottom="14sp"
             android:textColorHint="#96ffffff"
-            app:boxStrokeWidth="0dp"
             android:theme="@style/EditScreenTextInputLayoutStyle">
 
             <androidx.appcompat.widget.AppCompatEditText
-                android:id="@+id/edtxn_regester_name"
+                android:id="@+id/edtxt_login_email"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:drawablePadding="16dp"
-                android:drawableEnd="@drawable/ic_baseline_perm_identity_24"
-                android:fontFamily="@font/calibri"
-
-                android:hint="Name"
-                android:inputType="text"
-                android:maxLines="1"
-
-                android:textColor="@android:color/white"
-                android:textSize="16sp" />
-        </com.google.android.material.textfield.TextInputLayout>
-
-
-        <com.google.android.material.textfield.TextInputLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginBottom="14sp"
-            android:textColorHint="#96ffffff"
-            app:boxStrokeWidth="0dp"
-            android:theme="@style/EditScreenTextInputLayoutStyle">
-
-            <androidx.appcompat.widget.AppCompatEditText
-                android:id="@+id/edtxt_register_email"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:drawablePadding="14dp"
+                android:layout_marginBottom="20dp"
                 android:drawableEnd="@drawable/ic_baseline_email_24"
                 android:fontFamily="@font/calibri"
-
                 android:hint="Email"
                 android:inputType="textEmailAddress"
                 android:maxLines="1"
-
                 android:textColor="@android:color/white"
-                android:textSize="16sp" />
+                android:textSize="22sp" />
         </com.google.android.material.textfield.TextInputLayout>
+
 
         <com.google.android.material.textfield.TextInputLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:textColorHint="#96ffffff"
-            app:boxStrokeWidth="0dp"
-            android:layout_marginBottom="14sp"
             android:theme="@style/EditScreenTextInputLayoutStyle">
 
             <androidx.appcompat.widget.AppCompatEditText
-                android:id="@+id/edtxt_register_password"
+                android:id="@+id/edtxt_login_password"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:drawableEnd="@drawable/ic_baseline_vpn_key_24"
                 android:drawablePadding="16dp"
+                android:drawableEnd="@drawable/ic_baseline_vpn_key_24"
                 android:fontFamily="@font/calibri"
-
                 android:hint="Password"
                 android:inputType="textPassword"
                 android:maxLines="1"
                 android:textColor="@android:color/white"
-                android:textSize="16sp"
-                tools:ignore="SpeakableTextPresentCheck" />
+                android:textSize="22sp" />
         </com.google.android.material.textfield.TextInputLayout>
 
-
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="35sp"
+            android:layout_gravity="right"
+            android:fontFamily="@font/calibri"
+            android:text="Forgot Password?"
+            android:textColor="#96ffffff"
+            android:textSize="16sp" />
 
 
         <androidx.appcompat.widget.AppCompatButton
-            android:id="@+id/btn_register"
+            android:id="@+id/btn_login"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginEnd="16dp"
             android:background="@drawable/buttonshapewhitebg"
             android:layout_gravity="center"
             android:fontFamily="@font/calibri"
-            android:text="@string/register_btn_text"
+            android:text="@string/login_btn_text"
             android:textAllCaps="false"
             android:textStyle="bold"
             android:textColor="#96ffffff"
@@ -132,7 +106,7 @@
 
 
         <TextView
-            android:id="@+id/tnx_already_acc"
+            android:id="@+id/txt_register"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:textColor="#96ffffff"
@@ -140,7 +114,7 @@
             android:textStyle="bold"
             android:layout_marginTop="10dp"
             android:layout_gravity="center"
-            android:text="@string/already_have_an_account"
+            android:text="@string/dont_have_an_account"
             />
 
     </LinearLayout>
