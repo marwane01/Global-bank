@@ -54,14 +54,14 @@ public class Register_Activity extends AppCompatActivity {
         mAuth=FirebaseAuth.getInstance();
 
         btnRegister.setOnClickListener(view -> {
-            createuser();
+            //createuser();
         });
         btnlogin.setOnClickListener(view -> {
             switchToLogin();
         });
 
     }
-
+/*
     private void createuser(){
         String sEmail = etRegEmail.getText().toString();
         String sPassword = etRegPassword.getText().toString();
@@ -110,6 +110,8 @@ public class Register_Activity extends AppCompatActivity {
 
 
     }
+
+ */
 
 
     private void MyToast(String text) {

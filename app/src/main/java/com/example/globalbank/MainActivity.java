@@ -1,69 +1,73 @@
 package com.example.globalbank;
 
-import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.fragment.app.Fragment;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.view.View;
-import android.widget.Button;
-import android.widget.TextView;
+import android.view.WindowManager;
 
-import com.example.globalbank.Model.User;
+
+import com.example.globalbank.Fragment.mainActivity.CardFragment;
+import com.example.globalbank.Fragment.mainActivity.HomeFragment;
+import com.example.globalbank.Fragment.mainActivity.ProfileFragment;
+import com.example.globalbank.Fragment.mainActivity.ScanFragment;
+import com.example.globalbank.Fragment.mainActivity.StatisticFragment;
+import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.firebase.auth.FirebaseAuth;
-import com.google.firebase.auth.FirebaseUser;
-import com.google.firebase.database.DataSnapshot;
-import com.google.firebase.database.DatabaseError;
-import com.google.firebase.database.DatabaseReference;
-import com.google.firebase.database.FirebaseDatabase;
-import com.google.firebase.database.ValueEventListener;
 
 public class MainActivity extends AppCompatActivity {
 
-    TextView txt1,txt2,txt3;
-    Button btn_logout;
+    BottomNavigationView bottomNavigationView;
+
+
+
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        FirebaseAuth auth = FirebaseAuth.getInstance();
-        FirebaseUser currentUser = auth.getCurrentUser();
-        if(currentUser == null){
-            startActivity(new Intent(MainActivity.this, Login_Activity.class));
-            finish();
-        }
 
-        txt1 = findViewById(R.id.textView);
-        txt2 = findViewById(R.id.textView2);
-        txt3 = findViewById(R.id.textView3);
-        btn_logout = findViewById(R.id.button);
-        btn_logout.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                logoutUser();
+        getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN,WindowManager.LayoutParams.FLAG_FULLSCREEN);
+
+        bottomNavigationView = findViewById(R.id.bottomNavigationView);
+
+
+
+
+
+        bottomNavigationView.setOnNavigationItemSelectedListener(item -> {
+            Fragment selectedFragment = null;
+            switch (item.getItemId()) {
+                case R.id.home:
+                    selectedFragment = new HomeFragment();
+                    break;
+                case R.id.statistic:
+                    selectedFragment = new StatisticFragment();
+                    break;
+                case R.id.scan:
+                    selectedFragment = new ScanFragment();
+                    break;
+                case R.id.card:
+                    selectedFragment = new CardFragment();
+                    break;
+                case R.id.profile:
+                    selectedFragment = new ProfileFragment();
+                    break;
             }
+            if (selectedFragment != null) {
+                getSupportFragmentManager().beginTransaction().replace(R.id.flFragment, selectedFragment).commit();
+            }
+            return true;
+
         });
 
-        FirebaseDatabase database = FirebaseDatabase.getInstance();
-        DatabaseReference reference = database.getReference("Users").child(currentUser.getUid());
-        reference.addValueEventListener(new ValueEventListener() {
-            @Override
-            public void onDataChange(@NonNull DataSnapshot snapshot) {
-                User user =snapshot.getValue(User.class);
-                if (user != null){
-                    txt1.setText("Name " + user.name);
-                    txt2.setText("Email " + user.email);
-                    txt3.setText("Password " + user.password);
-                }
-            }
+        Fragment initialFragment = new HomeFragment();
+        getSupportFragmentManager().beginTransaction().replace(R.id.flFragment, initialFragment).commit();
 
-            @Override
-            public void onCancelled(@NonNull DatabaseError error) {
 
-            }
-        });
 
     }
 

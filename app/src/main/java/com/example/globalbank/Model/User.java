@@ -3,41 +3,54 @@ package com.example.globalbank.Model;
 public class User {
 
 
-    public String name;
-    public String email;
-    public String password;
+    public int RIB;
+    public String f_name;
+    public String l_name;
+    public float balance;
+
+
+
+
 
     public User() {
     }
 
-    public User( String name, String email, String password) {
-        this.name = name;
-        this.email = email;
-        this.password = password;
+    public User(int RIB, String f_name, String l_name, float balance) {
+        this.RIB = RIB;
+        this.f_name = f_name;
+        this.l_name = l_name;
+        this.balance = balance;
     }
 
-
-    public String getName() {
-        return name;
+    public int getRIB() {
+        return RIB;
     }
 
-    public void setName(String name) {
-        this.name = name;
+    public void setRIB(int RIB) {
+        this.RIB = RIB;
     }
 
-    public String getEmail() {
-        return email;
+    public String getF_name() {
+        return f_name;
     }
 
-    public void setEmail(String email) {
-        this.email = email;
+    public void setF_name(String f_name) {
+        this.f_name = f_name;
     }
 
-    public String getPassword() {
-        return password;
+    public String getL_name() {
+        return l_name;
     }
 
-    public void setPassword(String password) {
-        this.password = password;
+    public void setL_name(String l_name) {
+        this.l_name = l_name;
+    }
+
+    public float getBalance() {
+        return balance;
+    }
+
+    public void setBalance(float balance) {
+        this.balance = balance;
     }
 }

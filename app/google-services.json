@@ -1,0 +1,40 @@
+{
+  "project_info": {
+    "project_number": "531755981881",
+    "firebase_url": "https://global-bank-35cd5-default-rtdb.europe-west1.firebasedatabase.app",
+    "project_id": "global-bank-35cd5",
+    "storage_bucket": "global-bank-35cd5.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:531755981881:android:92dd8d986297e561b241e8",
+        "android_client_info": {
+          "package_name": "com.example.globalbank"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "531755981881-3b64fbhbdckr4hn1q7b4lap2c1mg3t7m.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyA8wdTc8XIQi_CUxoOLxVxwQ75Yb-vCCrw"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "531755981881-3b64fbhbdckr4hn1q7b4lap2c1mg3t7m.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
