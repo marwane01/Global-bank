@@ -9,45 +9,56 @@ import androidx.fragment.app.FragmentTransaction;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.AdapterView;
-import android.widget.ListView;
+import android.widget.Button;
+import android.widget.EditText;
 
 import com.example.globalbank.R;
-import com.example.globalbank.adapter.Adapter_List_Bene;
 import com.example.globalbank.database.local.BeneModel;
 import com.example.globalbank.database.local.RoomDB;
 
-import java.util.ArrayList;
 
+public class Add_Bene_Fragment extends Fragment {
 
-public class Choose_BENE extends Fragment {
-
-    private ArrayList<BeneModel> items ;
-    private RoomDB db ;
-    private Adapter_List_Bene adapter;
-    public Choose_BENE() {
+    private Button btn_validate;
+    private EditText ed_acc_num , ed_full_name;
+    private RoomDB db;
+    public Add_Bene_Fragment() {
         // Required empty public constructor
     }
+
+
+
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        View root = inflater.inflate(R.layout.fragment_choose__b_e_n_e, container, false);
+        // Inflate the layout for this fragment
+        View root = inflater.inflate(R.layout.fragment_add__bene_, container, false);
 
-        ListView listView = (ListView) root.findViewById(R.id.lst_bene);
+        btn_validate = root.findViewById(R.id.btn_validate);
+        ed_acc_num = root.findViewById(R.id.ed_acc_num);
+        ed_full_name = root.findViewById(R.id.ed_full_name);
+
         db = RoomDB.getInstance(getContext());
-        items=new ArrayList<>();
-        items= (ArrayList<BeneModel>) db.mainDao().getAll();
-        adapter=new Adapter_List_Bene(getContext(),items);
-        listView.setAdapter(adapter);
 
-        listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+
+
+        Bundle b = this.getArguments();
+        if (b != null) {
+
+            ed_full_name.setText(b.getString("name_Payment"));
+            ed_acc_num.setText(b.getString("rib_Payment"));
+
+        }
+        btn_validate.setOnClickListener(new View.OnClickListener() {
             @Override
-            public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
-                BeneModel model = items.get(i);
+            public void onClick(View view) {
+                String full_name = ed_full_name.getText().toString();
+                String acc_num = ed_acc_num.getText().toString();
+                add_bene(full_name , acc_num);
 
                 Bundle bundle = new Bundle();
-                bundle.putString("name_Credited" , model.getFull_name());
-                bundle.putString("RIB_Credited" , model.getRIB());
+                bundle.putString("name_Credited" ,full_name );
+                bundle.putString("RIB_Credited" , acc_num);
                 bundle.putBoolean("true" , true);
                 Fragment fragment = new Payment_Home_Fragment();
                 fragment.setArguments(bundle);
@@ -58,11 +69,15 @@ public class Choose_BENE extends Fragment {
 
 
 
-
         backPressedDispatcher();
         return root;
     }
+    private void add_bene(String full_name , String RIB){
+        BeneModel model = new BeneModel(full_name,RIB);
+        db.mainDao().insert(model);
 
+
+    }
     private void backPressedDispatcher(){
         requireActivity().getOnBackPressedDispatcher().addCallback(getViewLifecycleOwner(), new OnBackPressedCallback(true) {
             @Override
@@ -74,5 +89,4 @@ public class Choose_BENE extends Fragment {
         });
 
     }
-
 }

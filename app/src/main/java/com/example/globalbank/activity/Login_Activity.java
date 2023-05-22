@@ -1,7 +1,6 @@
-package com.example.globalbank;
+package com.example.globalbank.activity;
 
 import androidx.annotation.NonNull;
-import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
@@ -13,6 +12,9 @@ import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.example.globalbank.Model.User;
+import com.example.globalbank.R;
+import com.example.globalbank.database.online.DbOnline;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthResult;
@@ -29,8 +31,8 @@ public class Login_Activity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
 
-        ActionBar actionBar = getSupportActionBar();
-        actionBar.hide();
+        //ActionBar actionBar = getSupportActionBar();
+        //actionBar.hide();
 
         mAuth = FirebaseAuth.getInstance();
         etLoginEmail = findViewById(R.id.edtxt_login_email);
@@ -67,15 +69,14 @@ public class Login_Activity extends AppCompatActivity {
             etLoginPassword.setError("password can't be empty");
             etLoginPassword.requestFocus();
         }else {
-            mAuth.signInWithEmailAndPassword(semail,spassword)
-                    .addOnCompleteListener(new OnCompleteListener<AuthResult>() {
+
+            DbOnline db = new DbOnline(this);
+            db.LoginUser(semail, spassword,new DbOnline.OnLoginListener() {
                 @Override
-                public void onComplete(@NonNull Task<AuthResult> task) {
-                    if (task.isSuccessful()){
-                        MyToast("User Logged successfully");
+                public void onLoginSuccess(Boolean passwordCorrect) {
+                    if (passwordCorrect == true){
                         showMainaAtivity();
-                    }else{
-                       MyToast("Log in Error : "+task.getException().getMessage());
+
                     }
                 }
             });

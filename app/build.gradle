@@ -42,6 +42,17 @@ dependencies {
 
     implementation 'com.makeramen:roundedimageview:2.3.0'
 
+
+    //Room Database
+    implementation "androidx.room:room-runtime:2.2.5"
+    annotationProcessor "androidx.room:room-compiler:2.2.5"
+
+    //QrCode
+    implementation 'com.github.yuriy-budiyev:code-scanner:2.3.2'
+    implementation 'com.google.zxing:core:3.4.1'
+
+
+
     //firebase
     implementation 'com.google.firebase:firebase-auth:21.0.1'
     implementation 'com.google.firebase:firebase-database:20.0.4'

@@ -75,6 +75,7 @@
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
+                        android:textStyle="bold"
                         android:text="Account to be Debited"
                         android:textColor="@color/browser_actions_bg_grey"
                         android:textSize="24dp"
@@ -91,6 +92,7 @@
                             android:layout_weight="1"
                             android:orientation="vertical">
                             <TextView
+                                android:id="@+id/txt_p_name"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
 
@@ -102,6 +104,7 @@
                                 android:text="Marwane Chatbi"/>
 
                             <TextView
+                                android:id="@+id/txt_p_rib"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:text="23080130129302193012930"
@@ -112,6 +115,7 @@
 
 
                         <TextView
+                            android:id="@+id/txt_p_balance"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
 
@@ -142,6 +146,42 @@
                     android:layout_height="wrap_content"
                     android:layout_weight="0"
                     android:orientation="vertical">
+                    <LinearLayout
+                        android:id="@+id/layout_Credited"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="vertical"
+
+                        >
+
+
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Account to be Credited"
+                        android:textStyle="bold"
+                        android:textColor="@color/dark_blue"
+                        android:textSize="26dp"
+
+                        />
+                    <TextView
+                        android:id="@+id/txt_name_credi"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:textSize="18dp"
+                        android:textColor="@color/black"
+                        android:text="Marwane Chatbi"/>
+
+                    <TextView
+                        android:id="@+id/txt_num_credi"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="23080130129302193012930"
+                        android:textColor="@color/blue"
+                        android:textSize="18dp"/>
+                    </LinearLayout>
+
 
 
                     <Button
@@ -149,7 +189,7 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:textSize="15dp"
-                        android:text="Choose Recipint"
+                        android:text="Choose Recibepint"
                         android:textColor="@color/black" />
 
                     <LinearLayout
@@ -169,6 +209,7 @@
                             android:textSize="20dp" />
 
                         <EditText
+                            android:id="@+id/et_amount"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_weight="1" />
@@ -191,6 +232,7 @@
                             android:textSize="20dp" />
 
                         <EditText
+                            android:id="@+id/et_reason"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_weight="1" />
@@ -198,12 +240,21 @@
                     </LinearLayout>
 
                     <Button
+                        android:id="@+id/btn_next"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_marginTop="10dp"
                         android:textSize="15dp"
                         android:text="NEXT"
                         android:textColor="@color/black" />
+                    <TextView
+                        android:layout_marginTop="10dp"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:textColor="@color/black"
+                        android:textStyle="bold"
+                        android:text="@string/Minimum_amount"
+                        />
 
                 </LinearLayout>
 
@@ -217,14 +268,16 @@
                     >
 
                     <Button
+                        android:id="@+id/btn_Add_Bene"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_gravity="center_horizontal|center"
                         android:textSize="17dp"
-                        android:text="ADD A RECIPENT"
+                        android:text="ADD A BENEFICIARY"
                         android:textColor="@color/black" />
 
                     <Button
+                        android:id="@+id/btn_manage_bene"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:textSize="17dp"

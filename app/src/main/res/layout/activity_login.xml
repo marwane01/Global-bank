@@ -6,7 +6,7 @@
     android:layout_height="match_parent"
     android:focusableInTouchMode="true"
     android:background="@drawable/aaaaae"
-    tools:context=".Login_Activity">
+    tools:context=".activity.Login_Activity">
 
 
 

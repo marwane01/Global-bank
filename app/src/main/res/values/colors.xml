@@ -9,5 +9,10 @@
     <color name="textInputLayout">#c5c5c5</color>
     <color name="non">#00000000</color>
     <color name="blue">#48f0bd</color>
+    <color name="dark_blue">#105C6C</color>
+    <color name="dark_dark_blue">#19369A</color>
+    <color name="grey">#F2F5FF</color>
+    <color name="view_color">#CACBEF</color>
+    <color name="green">#00FF00</color>
 
 </resources>

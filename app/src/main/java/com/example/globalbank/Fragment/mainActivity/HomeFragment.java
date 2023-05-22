@@ -4,29 +4,30 @@ import android.content.Intent;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
-import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.ActionBarDrawerToggle;
-import androidx.appcompat.widget.ThemedSpinnerAdapter;
 import androidx.appcompat.widget.Toolbar;
 import androidx.drawerlayout.widget.DrawerLayout;
 import androidx.fragment.app.Fragment;
 
-import android.provider.SyncStateContract;
 import android.view.LayoutInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
-import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.ListView;
+import android.widget.TextView;
 
-import com.example.globalbank.Payment;
+import com.example.globalbank.Model.User;
+import com.example.globalbank.Model.UserManager;
+import com.example.globalbank.activity.Payment;
 import com.example.globalbank.R;
+import com.example.globalbank.database.online.DbOnline;
 import com.google.android.material.navigation.NavigationView;
 
 
-public class HomeFragment extends Fragment implements NavigationView.OnNavigationItemSelectedListener {
+public class HomeFragment extends Fragment implements NavigationView.OnNavigationItemSelectedListener,
+        DbOnline.OnUserDataUpdateListener  {
 
 
     public HomeFragment() {
@@ -37,7 +38,9 @@ public class HomeFragment extends Fragment implements NavigationView.OnNavigatio
     String f_name, l_name;
     float balance;
 
-    ListView myList;
+    private ListView myList;
+
+    private DbOnline dbOnline;
     String listss[] = {"one", "TWO", "one", "TWO", "one", "TWO", "one", "TWO", "one", "TWO", "one", "TWO", "one", "TWO",
             "one", "TWO", "one", "TWO", "one", "TWO", "one", "TWO",
             "one", "TWO",};
@@ -45,8 +48,9 @@ public class HomeFragment extends Fragment implements NavigationView.OnNavigatio
     private NavigationView navigationView;
     private DrawerLayout drawer;
     private Toolbar toolbar;
+    TextView txt_balance,txt_toolbar_title;
 
-    private ImageButton btn_send;
+    private ImageButton btn_send,btn_more;
 
 
     @Override
@@ -63,7 +67,20 @@ public class HomeFragment extends Fragment implements NavigationView.OnNavigatio
         drawer = root.findViewById(R.id.drawer_layout);
         navigationView = root.findViewById(R.id.nav_view);
         btn_send = root.findViewById(R.id.btn_send);
+        btn_more = root.findViewById(R.id.btn_more);
+        txt_balance = root.findViewById(R.id.txt_balance);
+        txt_toolbar_title = root.findViewById(R.id.txtToolbarTitle);
 
+        dbOnline = new DbOnline();
+        dbOnline.listenForUserDataUpdates(this);
+
+
+        User user = UserManager.getInstance().getUser();
+
+
+
+        txt_toolbar_title.setText("Welcome " + user.getSname() +"\n" +user.getRibNumber() );
+        txt_balance.setText(String.valueOf(user.getBalance()));
 
         navigationView.setNavigationItemSelectedListener(this);
         ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(getActivity(), drawer, toolbar,
@@ -80,6 +97,13 @@ public class HomeFragment extends Fragment implements NavigationView.OnNavigatio
         });
 
 
+        btn_more.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+            }
+        });
+
+
         return root;
     }
 
@@ -88,5 +112,16 @@ public class HomeFragment extends Fragment implements NavigationView.OnNavigatio
         return false;
     }
 
+
+    @Override
+    public void onUserDataUpdated(User user) {
+        txt_toolbar_title.setText("Welcome " + user.getSname() + "\n" + user.getRibNumber());
+        txt_balance.setText(String.valueOf(user.getBalance()));
+    }
+
+    @Override
+    public void onUserDataUpdateFailed(String error) {
+
+    }
 }
 

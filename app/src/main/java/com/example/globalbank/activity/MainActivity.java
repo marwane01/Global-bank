@@ -1,4 +1,4 @@
-package com.example.globalbank;
+package com.example.globalbank.activity;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.Fragment;
@@ -13,6 +13,8 @@ import com.example.globalbank.Fragment.mainActivity.HomeFragment;
 import com.example.globalbank.Fragment.mainActivity.ProfileFragment;
 import com.example.globalbank.Fragment.mainActivity.ScanFragment;
 import com.example.globalbank.Fragment.mainActivity.StatisticFragment;
+import com.example.globalbank.R;
+import com.example.globalbank.database.online.DbOnline;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.firebase.auth.FirebaseAuth;
 
@@ -20,19 +22,16 @@ public class MainActivity extends AppCompatActivity {
 
     BottomNavigationView bottomNavigationView;
 
-
-
-
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-
         getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN,WindowManager.LayoutParams.FLAG_FULLSCREEN);
 
         bottomNavigationView = findViewById(R.id.bottomNavigationView);
+
+
 
 
 
@@ -70,6 +69,7 @@ public class MainActivity extends AppCompatActivity {
 
 
     }
+
 
     private void logoutUser() {
         FirebaseAuth.getInstance().signOut();
