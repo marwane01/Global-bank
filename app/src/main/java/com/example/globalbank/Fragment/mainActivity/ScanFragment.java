@@ -6,6 +6,7 @@ import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.os.Bundle;
 
+import androidx.activity.OnBackPressedCallback;
 import androidx.annotation.NonNull;
 import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
@@ -21,6 +22,7 @@ import android.widget.Toast;
 import com.budiyev.android.codescanner.CodeScanner;
 import com.budiyev.android.codescanner.CodeScannerView;
 import com.budiyev.android.codescanner.DecodeCallback;
+import com.example.globalbank.Fragment.Payment.Payment_Home_Fragment;
 import com.example.globalbank.activity.Payment;
 import com.example.globalbank.R;
 import com.google.zxing.Result;
@@ -117,7 +119,7 @@ public class ScanFragment extends Fragment {
             }
         });
 
-
+backPressedDispatcher();
         return root;
     }
 
@@ -149,6 +151,18 @@ public class ScanFragment extends Fragment {
         }
     }
 
+
+    private void backPressedDispatcher(){
+        requireActivity().getOnBackPressedDispatcher().addCallback(getViewLifecycleOwner(), new OnBackPressedCallback(true) {
+            @Override
+            public void handleOnBackPressed() {
+                // Navigate back to Fragment 1
+                Fragment fragment1 = new HomeFragment();
+                getParentFragmentManager().beginTransaction().replace(R.id.flFragment, fragment1).commit();
+            }
+        });
+
+    }
 
 
 }
