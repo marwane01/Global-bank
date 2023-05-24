@@ -5,6 +5,7 @@ import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 
+import com.example.globalbank.Model.Transaction_H;
 import com.example.globalbank.Model.User;
 import com.example.globalbank.Model.UserManager;
 import com.example.globalbank.RIBgenerator;
@@ -17,6 +18,9 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
+import java.util.ArrayList;
+import java.util.List;
+
 public class DbOnline {
 
 
@@ -26,17 +30,108 @@ public class DbOnline {
 
     private FirebaseDatabase db = FirebaseDatabase.getInstance("https://global-bank-35cd5-default-rtdb.europe-west1.firebasedatabase.app/");
     private DatabaseReference usersdb = db.getReference().child("Users");
+    private DatabaseReference history = db.getReference().child("history");
 
     public DbOnline(){}
     public DbOnline(Context context) {
         this.context = context;
 
     }
+    public interface OnTransactionDataListener {
+        void onTransactionDataReceived(ArrayList<Transaction_H> transactionList);
+    }
 
-    public void updateBalances(String fromRIB, String toRIB, float amount) {
-        DatabaseReference fromUserRef = usersdb.child(fromRIB);
+    private OnTransactionDataListener listener;
+
+    public void setOnTransactionDataListener(OnTransactionDataListener listener) {
+        this.listener = listener;
+    }
+
+    public void getTransactionInfo(String userRib) {
+        history.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                ArrayList<Transaction_H> transactionList = new ArrayList<>();
+                for (DataSnapshot snapshot : dataSnapshot.getChildren()) {
+                    Transaction_H transaction = snapshot.getValue(Transaction_H.class);
+                    if (transaction.getSender_rib().equals(userRib) || transaction.getReceiver_rib().equals(userRib)) {
+                        transactionList.add(transaction);
+                    }
+
+
+                }
+                if (listener != null) {
+                    listener.onTransactionDataReceived(transactionList);
+                }
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+                // Handle onCancelled if needed
+            }
+        });
+    }
+
+    public void transaction_History(String fromRIB,String name_sender, String toRIB,String name_receiver, float amount , String reason , String currentDate){
+        Transaction_H transaction = new Transaction_H(fromRIB,name_sender, toRIB,name_receiver, amount,  reason, currentDate);
+        history.child(transaction.getId()).setValue(transaction)
+                .addOnCompleteListener(new OnCompleteListener<Void>() {
+                    @Override
+                    public void onComplete(@NonNull Task<Void> task) {
+                        if (task.isSuccessful()) {
+                            // Transaction saved successfully
+                            // You can perform any additional actions or show a success message here
+
+                        } else {
+                            // Failed to save the transaction
+                            Toast.makeText(context, "Failed to save the transaction", Toast.LENGTH_SHORT).show();
+                        }
+                    }
+                });
+
+    }
+    public void updateReceiverBalance(String toRIB, float amount ){
         DatabaseReference toUserRef = usersdb.child(toRIB);
+        toUserRef.addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                if (dataSnapshot.exists()) {
+                    User toUser = dataSnapshot.getValue(User.class);
+                    if (toUser != null) {
+                        float toUserBalance = toUser.getBalance();
+                        float newToUserBalance = toUserBalance + amount;
+                        toUser.setBalance(newToUserBalance);
+                        toUserRef.child("balance").setValue(newToUserBalance)
+                                .addOnCompleteListener(new OnCompleteListener<Void>() {
+                                    @Override
+                                    public void onComplete(@NonNull Task<Void> task) {
+                                        if (task.isSuccessful()) {
+                                            // Receiver's balance update successful
 
+                                        } else {
+                                            // Receiver's balance update failed
+                                            Toast.makeText(context, "Failed to update receiver's balance", Toast.LENGTH_SHORT).show();
+                                        }
+                                    }
+                                });
+                    }
+                }
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError databaseError) {
+                Toast.makeText(context, "Failed to update receiver's balance", Toast.LENGTH_SHORT).show();
+            }
+        });
+
+    }
+    interface OnBalanceUpdateListener {
+        void onBalanceUpdateSuccess();
+
+        void onInsufficientBalance();
+    }
+    public void updateSenderBalance(String fromRIB, float amount, final OnBalanceUpdateListener listener) {
+        DatabaseReference fromUserRef = usersdb.child(fromRIB);
         fromUserRef.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
@@ -54,38 +149,7 @@ public class DbOnline {
                                         public void onComplete(@NonNull Task<Void> task) {
                                             if (task.isSuccessful()) {
                                                 // Sender's balance update successful
-                                                // Now update the receiver's balance
-                                                toUserRef.addListenerForSingleValueEvent(new ValueEventListener() {
-                                                    @Override
-                                                    public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                                                        if (dataSnapshot.exists()) {
-                                                            User toUser = dataSnapshot.getValue(User.class);
-                                                            if (toUser != null) {
-                                                                float toUserBalance = toUser.getBalance();
-                                                                float newToUserBalance = toUserBalance + amount;
-                                                                toUser.setBalance(newToUserBalance);
-                                                                toUserRef.child("balance").setValue(newToUserBalance)
-                                                                        .addOnCompleteListener(new OnCompleteListener<Void>() {
-                                                                            @Override
-                                                                            public void onComplete(@NonNull Task<Void> task) {
-                                                                                if (task.isSuccessful()) {
-                                                                                    // Receiver's balance update successful
-                                                                                    Toast.makeText(context, "Balances updated successfully", Toast.LENGTH_SHORT).show();
-                                                                                } else {
-                                                                                    // Receiver's balance update failed
-                                                                                    Toast.makeText(context, "Failed to update receiver's balance", Toast.LENGTH_SHORT).show();
-                                                                                }
-                                                                            }
-                                                                        });
-                                                            }
-                                                        }
-                                                    }
-
-                                                    @Override
-                                                    public void onCancelled(@NonNull DatabaseError databaseError) {
-                                                        Toast.makeText(context, "Failed to update receiver's balance", Toast.LENGTH_SHORT).show();
-                                                    }
-                                                });
+                                                listener.onBalanceUpdateSuccess();
                                             } else {
                                                 // Sender's balance update failed
                                                 Toast.makeText(context, "Failed to update sender's balance", Toast.LENGTH_SHORT).show();
@@ -94,7 +158,7 @@ public class DbOnline {
                                     });
                         } else {
                             // Insufficient balance for the transaction
-                            Toast.makeText(context, "Insufficient balance for the transaction", Toast.LENGTH_SHORT).show();
+                            listener.onInsufficientBalance();
                         }
                     }
                 }
@@ -103,6 +167,26 @@ public class DbOnline {
             @Override
             public void onCancelled(@NonNull DatabaseError databaseError) {
                 Toast.makeText(context, "Failed to update sender's balance", Toast.LENGTH_SHORT).show();
+            }
+        });
+    }
+    public interface OnTransactionListener{
+        void onTransactionSuccess();
+        void onTransactionCancelled();
+    }
+    public void updateBalances(String fromRIB,String name_sender, String toRIB,String name_receiver, float amount, String reason, String currentDate , final OnTransactionListener listener) {
+        updateSenderBalance(fromRIB, amount, new OnBalanceUpdateListener() {
+            @Override
+            public void onBalanceUpdateSuccess() {
+                updateReceiverBalance(toRIB, amount);
+                transaction_History(fromRIB,name_sender, toRIB,name_receiver, amount, reason, currentDate);
+                listener.onTransactionSuccess();
+            }
+
+            @Override
+            public void onInsufficientBalance() {
+                // Handle the case when the sender's balance is insufficient
+                listener.onTransactionCancelled();
             }
         });
     }

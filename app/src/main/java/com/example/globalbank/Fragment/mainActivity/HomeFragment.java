@@ -18,16 +18,21 @@ import android.widget.ImageButton;
 import android.widget.ListView;
 import android.widget.TextView;
 
+import com.example.globalbank.Model.Transaction_H;
 import com.example.globalbank.Model.User;
 import com.example.globalbank.Model.UserManager;
 import com.example.globalbank.activity.Payment;
 import com.example.globalbank.R;
+import com.example.globalbank.adapter.Adapter_List_History;
 import com.example.globalbank.database.online.DbOnline;
 import com.google.android.material.navigation.NavigationView;
 
+import java.util.ArrayList;
+import java.util.List;
+
 
 public class HomeFragment extends Fragment implements NavigationView.OnNavigationItemSelectedListener,
-        DbOnline.OnUserDataUpdateListener  {
+        DbOnline.OnUserDataUpdateListener , DbOnline.OnTransactionDataListener  {
 
 
     public HomeFragment() {
@@ -41,9 +46,7 @@ public class HomeFragment extends Fragment implements NavigationView.OnNavigatio
     private ListView myList;
 
     private DbOnline dbOnline;
-    String listss[] = {"one", "TWO", "one", "TWO", "one", "TWO", "one", "TWO", "one", "TWO", "one", "TWO", "one", "TWO",
-            "one", "TWO", "one", "TWO", "one", "TWO", "one", "TWO",
-            "one", "TWO",};
+
 
     private NavigationView navigationView;
     private DrawerLayout drawer;
@@ -60,7 +63,6 @@ public class HomeFragment extends Fragment implements NavigationView.OnNavigatio
         View root = inflater.inflate(R.layout.fragment_home, container, false);
 
         myList = root.findViewById(R.id.listview);
-        myList.setAdapter(new ArrayAdapter<String>(getContext(), android.R.layout.simple_list_item_1, listss));
 
 
         toolbar = root.findViewById(R.id.toolbar);
@@ -72,10 +74,10 @@ public class HomeFragment extends Fragment implements NavigationView.OnNavigatio
         txt_toolbar_title = root.findViewById(R.id.txtToolbarTitle);
 
         dbOnline = new DbOnline();
+        dbOnline.setOnTransactionDataListener(this);
         dbOnline.listenForUserDataUpdates(this);
-
-
         User user = UserManager.getInstance().getUser();
+        dbOnline.getTransactionInfo(user.getRibNumber());
 
 
 
@@ -122,6 +124,12 @@ public class HomeFragment extends Fragment implements NavigationView.OnNavigatio
     @Override
     public void onUserDataUpdateFailed(String error) {
 
+    }
+
+    @Override
+    public void onTransactionDataReceived(ArrayList<Transaction_H> transactionList) {
+        Adapter_List_History adapter = new Adapter_List_History(getContext(), transactionList);
+        myList.setAdapter(adapter);
     }
 }
 
