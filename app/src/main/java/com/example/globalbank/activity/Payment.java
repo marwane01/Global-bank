@@ -43,15 +43,11 @@ public class Payment extends AppCompatActivity {
                     getSupportFragmentManager().beginTransaction()
                             .replace(R.id.fragment_payment, fragment)
                             .commit();
-
-
-
                 }
             }
         }else {
             Fragment initialFragment = new Payment_Home_Fragment();
             getSupportFragmentManager().beginTransaction().replace(R.id.fragment_payment, initialFragment).commit();
-
         }
 
 

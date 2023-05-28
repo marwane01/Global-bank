@@ -26,14 +26,10 @@ import org.json.JSONObject;
 
 
 public class QRCodeGenerator extends Fragment {
-
     ImageView img_QrCode;
     String name , RIB ;
     public QRCodeGenerator() {
-        // Required empty public constructor
     }
-
-
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
@@ -48,10 +44,7 @@ public class QRCodeGenerator extends Fragment {
         Bitmap qrCodeBitmap = generateQRCodeBitmap("add_bene", name, RIB);
         img_QrCode.setImageBitmap(qrCodeBitmap);
 
-
-
         backPressedDispatcher();
-
         return root;
     }
 

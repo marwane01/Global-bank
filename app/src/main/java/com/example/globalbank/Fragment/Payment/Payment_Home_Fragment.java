@@ -22,16 +22,11 @@ import com.example.globalbank.activity.Payment;
 
 
 public class Payment_Home_Fragment extends Fragment {
-
     private Button btn_Choose_Bene,btn_Add_Bene , btn_manage_bene , btn_next;
     private TextView txt_name_credi , txt_num_Credi , txt_p_rib , txt_p_name , txt_p_balance;
     EditText et_amount , et_reason;
     private boolean layout_visib = false;
-
-    private int id;
     private String name_Credited, RIB_Credited , s_balance;
-
-
     public Payment_Home_Fragment() {
         // Required empty public constructor
     }
@@ -53,79 +48,52 @@ public class Payment_Home_Fragment extends Fragment {
         et_amount = root.findViewById(R.id.et_amount);
         et_reason = root.findViewById(R.id.et_reason);
 
-
-
-
-
         User user = UserManager.getInstance().getUser();
         txt_p_balance.setText(String.valueOf(user.getBalance()));
         txt_p_name.setText(user.getSname());
         txt_p_rib.setText(user.getRibNumber());
 
-
         Bundle bundle = this.getArguments();
         if (bundle != null) {
-
             name_Credited = bundle.getString("name_Credited");
             RIB_Credited = bundle.getString("RIB_Credited");
             layout_visib = bundle.getBoolean("true");
         }
 
-
-
         if (layout_visib == false){
             layout.setVisibility(View.GONE);
             btn_next.setEnabled(false);
-
         }else {
             layout.setVisibility(View.VISIBLE);
             btn_next.setEnabled(true);
-
         }
-
         txt_name_credi.setText(name_Credited);
         txt_num_Credi.setText(RIB_Credited);
-
-
         btn_next.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 float amount = Float.valueOf(et_amount.getText().toString());
                 String reason = et_reason.getText().toString();
                 float balance = user.getBalance();
-
                 if (amount >= 1){
-
                     if (amount < balance){
                         Bundle bundle = new Bundle();
                         bundle.putString("name_C" , name_Credited);
                         bundle.putString("RIB_C" , RIB_Credited);
                         bundle.putString("amount" , String.valueOf(amount));
                         bundle.putString("reason" , reason);
-
                         Fragment selectedFragment = new Next_fragment();
                         selectedFragment.setArguments(bundle);
                         getParentFragmentManager().beginTransaction().replace(R.id.fragment_payment, selectedFragment).commit();
-
-
                     }else {
                         et_amount.setError("insufficient account balance");
                         et_amount.requestFocus();
                         Toast.makeText(getContext() , "insufficient account balance" , Toast.LENGTH_LONG).show();
                     }
-
-
-
                 }else {
                     et_amount.setError("Minimum amount per transaction : 1");
                     et_amount.requestFocus();
                 }
-
-
-
-
-
-
             }
         });
         btn_manage_bene.setOnClickListener(new View.OnClickListener() {

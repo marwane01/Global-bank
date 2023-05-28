@@ -1,21 +1,24 @@
 package com.example.globalbank.Model;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.UUID;
 
 public class Transaction_H {
-    String id;
-    String sender_rib;
-    String receiver_rib;
-    float amount;
-    String reason;
-    String name_sender;
-    String name_receiver;
-    String date;
+    private String id;
+    private String sender_rib;
+    private String receiver_rib;
+    private float amount;
+    private String reason;
+    private String name_sender;
+    private String name_receiver;
+    private Date transactionDate;
 
     public Transaction_H() {
     }
 
-    public Transaction_H(String sender_rib , String name_sender, String receiver_rib,String name_receiver, float amount, String reason, String date) {
+    public Transaction_H(String sender_rib, String name_sender, String receiver_rib, String name_receiver, float amount, String reason, String date) {
         this.id = generateTransactionId();
         this.sender_rib = sender_rib;
         this.name_sender = name_sender;
@@ -23,7 +26,7 @@ public class Transaction_H {
         this.name_receiver = name_receiver;
         this.amount = amount;
         this.reason = reason;
-        this.date = date;
+        this.transactionDate = parseDate(date);
     }
 
     public String getName_sender() {
@@ -82,15 +85,25 @@ public class Transaction_H {
         this.reason = reason;
     }
 
-    public String getDate() {
-        return date;
+    public Date getTransactionDate() {
+        return transactionDate;
     }
 
-    public void setDate(String date) {
-        this.date = date;
+    public void setTransactionDate(Date transactionDate) {
+        this.transactionDate = transactionDate;
     }
+
     private String generateTransactionId() {
         return UUID.randomUUID().toString();
     }
 
+    private Date parseDate(String dateString) {
+        SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+        try {
+            return dateFormat.parse(dateString);
+        } catch (ParseException e) {
+            e.printStackTrace();
+            return null;
+        }
+    }
 }

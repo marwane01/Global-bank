@@ -20,11 +20,14 @@ import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 
+import java.security.MessageDigest;
+import java.security.NoSuchAlgorithmException;
+
 public class Login_Activity extends AppCompatActivity {
     EditText etLoginEmail , etLoginPassword;
     TextView textView;
     Button bnt_login;
-    FirebaseAuth mAuth;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -34,7 +37,6 @@ public class Login_Activity extends AppCompatActivity {
         //ActionBar actionBar = getSupportActionBar();
         //actionBar.hide();
 
-        mAuth = FirebaseAuth.getInstance();
         etLoginEmail = findViewById(R.id.edtxt_login_email);
         etLoginPassword = findViewById(R.id.edtxt_login_password);
         bnt_login= findViewById(R.id.btn_login);
@@ -71,7 +73,8 @@ public class Login_Activity extends AppCompatActivity {
         }else {
 
             DbOnline db = new DbOnline(this);
-            db.LoginUser(semail, spassword,new DbOnline.OnLoginListener() {
+            String hashedPassword = md5(spassword);
+            db.LoginUser(semail, hashedPassword,new DbOnline.OnLoginListener() {
                 @Override
                 public void onLoginSuccess(Boolean passwordCorrect) {
                     if (passwordCorrect == true){
@@ -81,6 +84,25 @@ public class Login_Activity extends AppCompatActivity {
                 }
             });
         }
+    }
+
+    private String md5(String input) {
+        try {
+            MessageDigest md = MessageDigest.getInstance("MD5");
+            byte[] messageDigest = md.digest(input.getBytes());
+            StringBuilder hexString = new StringBuilder();
+            for (byte b : messageDigest) {
+                String hex = Integer.toHexString(0xFF & b);
+                if (hex.length() == 1) {
+                    hexString.append('0');
+                }
+                hexString.append(hex);
+            }
+            return hexString.toString();
+        } catch (NoSuchAlgorithmException e) {
+            e.printStackTrace();
+        }
+        return "";
     }
 
     private void MyToast(String text) {

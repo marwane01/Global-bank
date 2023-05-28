@@ -11,21 +11,23 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.ImageView;
+import android.widget.TextView;
 
 import com.example.globalbank.Fragment.Payment.Next_fragment;
 import com.example.globalbank.Fragment.Payment.Payment_Home_Fragment;
 import com.example.globalbank.Model.User;
 import com.example.globalbank.Model.UserManager;
 import com.example.globalbank.R;
+import com.example.globalbank.activity.Login_Activity;
+import com.example.globalbank.activity.MainActivity;
+import com.google.firebase.auth.FirebaseAuth;
 
 
 public class ProfileFragment extends Fragment {
-
     ImageView btn_share ,btn_qrcode;
-
-
+    TextView txt_profile_email , txt_profile_phone , txt_profile_address;
+    Button btn_logout;
     public ProfileFragment() {
-        // Required empty public constructor
     }
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -35,7 +37,20 @@ public class ProfileFragment extends Fragment {
 
         btn_share = root.findViewById(R.id.btn_share);
         btn_qrcode = root.findViewById(R.id.btn_qrcode);
+        btn_logout = root.findViewById(R.id.btn_logout);
+        txt_profile_email = root.findViewById(R.id.txt_profile_email);
+        txt_profile_phone = root.findViewById(R.id.txt_profile_phone_n);
+        txt_profile_address = root.findViewById(R.id.txt_profile_address);
 
+        User user = UserManager.getInstance().getUser();
+        txt_profile_email.setText(user.getEmail());
+
+        btn_logout.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                logoutUser();
+            }
+        });
         btn_qrcode.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -54,11 +69,7 @@ public class ProfileFragment extends Fragment {
 
             }
         });
-
-
-
-
-
+        backPressedDispatcher();
         return root;
     }
 
@@ -78,6 +89,13 @@ public class ProfileFragment extends Fragment {
                 getParentFragmentManager().beginTransaction().replace(R.id.fragment_payment, fragment1).commit();
             }
         });
+
+    }
+
+    private void logoutUser() {
+
+        startActivity(new Intent(getContext(), Login_Activity.class));
+        getActivity().finish();
 
     }
 

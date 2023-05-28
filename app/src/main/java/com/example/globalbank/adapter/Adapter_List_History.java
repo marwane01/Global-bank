@@ -54,18 +54,9 @@ public class Adapter_List_History extends BaseAdapter {
         if (convertView==null){
             convertView=inflater.inflate(R.layout.adapter_list_history,null);
         }
-
-
-
         TextView txt_list_name = convertView.findViewById(R.id.list_item_name);
         TextView txt_list_num = convertView.findViewById(R.id.list_item_amount);
-
-
-
-
-
         try {
-
             Transaction_H transaction = getItem(position);
             String receiverName = transaction.getName_receiver();
             String senderName = transaction.getName_sender();
@@ -89,22 +80,14 @@ public class Adapter_List_History extends BaseAdapter {
                 txt_list_num.setText(formattedAmount);
                 txt_list_num.setTextColor(Color.RED);
 
-                String message = "You have sent money to " + transaction.getName_receiver() + ":";
+                String message = "You have sent money to " + receiverName + ":";
                 txt_list_name.setText(message);
-
-
             }
-
-
-
-
         }catch (Exception e){
-
-
+            System.out.println(e.getMessage());
         }
         return convertView;
     }
-
 
 
 }

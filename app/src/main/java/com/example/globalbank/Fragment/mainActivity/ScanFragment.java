@@ -32,15 +32,12 @@ import org.json.JSONObject;
 
 
 public class ScanFragment extends Fragment {
-
     private CodeScanner mCodeScanner;
-
     JSONObject json2;
     String type , name , rib;
     public ScanFragment() {
         // Required empty public constructor
     }
-
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
@@ -59,53 +56,31 @@ public class ScanFragment extends Fragment {
             @Override
             public void onDecoded(@NonNull final Result result) {
                 activity.runOnUiThread(new Runnable() {
-
                     @Override
                     public void run() {
-
                         Toast.makeText(activity, result.getText(), Toast.LENGTH_SHORT).show();
-
                         String data = result.getText();
-
                         try {
-
                             json2 = new JSONObject(data);
                             if (json2.has("type")&& json2.has("name") && json2.has("rib")){
                                 type = json2.getString("type");
                                 name = json2.getString("name");
                                 rib = json2.getString("rib");
-
                                 if (type.equals("add_bene")){
-
                                     Intent intent = new Intent(getActivity(), Payment.class);
                                     Bundle bundle = new Bundle();
                                     bundle.putString("fragmentTag", "Add_Bene_Fragment");
                                     bundle.putString("name", name);
                                     bundle.putString("rib", rib);
-
                                     intent.putExtras(bundle);
                                     startActivity(intent);
-
                                 }
                             }
-
-
-
-
-
 
                         } catch (JSONException e) {
                             e.printStackTrace();
                             // Handle the exception here
                         }
-
-
-
-
-
-
-
-
                     }
 
                 });
@@ -122,14 +97,11 @@ public class ScanFragment extends Fragment {
 backPressedDispatcher();
         return root;
     }
-
-
     @Override
     public void onResume() {
         super.onResume();
         mCodeScanner.startPreview();
     }
-
     @Override
     public void onPause() {
         mCodeScanner.releaseResources();

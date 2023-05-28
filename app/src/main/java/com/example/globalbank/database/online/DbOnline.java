@@ -19,6 +19,8 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.List;
 
 public class DbOnline {
@@ -28,7 +30,8 @@ public class DbOnline {
     public Context context;
 
 
-    private FirebaseDatabase db = FirebaseDatabase.getInstance("https://global-bank-35cd5-default-rtdb.europe-west1.firebasedatabase.app/");
+    private FirebaseDatabase db = FirebaseDatabase
+            .getInstance("https://global-bank-35cd5-default-rtdb.europe-west1.firebasedatabase.app/");
     private DatabaseReference usersdb = db.getReference().child("Users");
     private DatabaseReference history = db.getReference().child("history");
 
@@ -40,26 +43,31 @@ public class DbOnline {
     public interface OnTransactionDataListener {
         void onTransactionDataReceived(ArrayList<Transaction_H> transactionList);
     }
-
     private OnTransactionDataListener listener;
-
     public void setOnTransactionDataListener(OnTransactionDataListener listener) {
         this.listener = listener;
     }
-
     public void getTransactionInfo(String userRib) {
-        history.addValueEventListener(new ValueEventListener() {
+        history.orderByChild("date").addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                 ArrayList<Transaction_H> transactionList = new ArrayList<>();
                 for (DataSnapshot snapshot : dataSnapshot.getChildren()) {
                     Transaction_H transaction = snapshot.getValue(Transaction_H.class);
+
                     if (transaction.getSender_rib().equals(userRib) || transaction.getReceiver_rib().equals(userRib)) {
                         transactionList.add(transaction);
                     }
-
-
                 }
+
+                // Sort transactions by transactionDate in descending order (newest to oldest)
+                Collections.sort(transactionList, new Comparator<Transaction_H>() {
+                    @Override
+                    public int compare(Transaction_H t1, Transaction_H t2) {
+                        return t2.getTransactionDate().compareTo(t1.getTransactionDate());
+                    }
+                });
+
                 if (listener != null) {
                     listener.onTransactionDataReceived(transactionList);
                 }
@@ -72,8 +80,12 @@ public class DbOnline {
         });
     }
 
-    public void transaction_History(String fromRIB,String name_sender, String toRIB,String name_receiver, float amount , String reason , String currentDate){
-        Transaction_H transaction = new Transaction_H(fromRIB,name_sender, toRIB,name_receiver, amount,  reason, currentDate);
+    public void transaction_History(String fromRIB,String name_sender
+            ,String toRIB,String name_receiver
+            ,float amount , String reason , String currentDate) {
+
+        Transaction_H transaction = new Transaction_H(fromRIB,name_sender, toRIB,name_receiver
+                , amount,  reason, currentDate);
         history.child(transaction.getId()).setValue(transaction)
                 .addOnCompleteListener(new OnCompleteListener<Void>() {
                     @Override
@@ -174,7 +186,9 @@ public class DbOnline {
         void onTransactionSuccess();
         void onTransactionCancelled();
     }
-    public void updateBalances(String fromRIB,String name_sender, String toRIB,String name_receiver, float amount, String reason, String currentDate , final OnTransactionListener listener) {
+    public void updateBalances(String fromRIB,String name_sender, String toRIB,
+                               String name_receiver, float amount, String reason,
+                               String currentDate , final OnTransactionListener listener) {
         updateSenderBalance(fromRIB, amount, new OnBalanceUpdateListener() {
             @Override
             public void onBalanceUpdateSuccess() {
@@ -272,7 +286,6 @@ public class DbOnline {
                                 listener.onUserDataUpdated(updatedUser);
                             }
                         }
-
                         @Override
                         public void onCancelled(@NonNull DatabaseError databaseError) {
                             listener.onUserDataUpdateFailed(databaseError.getMessage());
@@ -285,7 +298,6 @@ public class DbOnline {
 
 
     // Listener interface for email check completion
-
 
     public interface OnEmailCheckListener {
         void onEmailCheckComplete(boolean emailAvailable);

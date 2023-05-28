@@ -4,10 +4,6 @@ import java.util.Random;
 
 public class RIBgenerator {
 
-
-
-
-
     public static String generateRIB(String bankCode, String cityCode) {
         Random random = new Random();
         long accountNumber = (long) (Math.random() * 9_000_000_000_000_000L) + 1_000_000_000_000_000L;
@@ -24,6 +20,33 @@ public class RIBgenerator {
         String ribWithKey = bankCode + cityCode + formattedAccountNumber + String.format("%02d", key);
         return ribWithKey;
     }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 }

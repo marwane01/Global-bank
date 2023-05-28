@@ -40,14 +40,10 @@ public class Add_Bene_Fragment extends Fragment {
 
         db = RoomDB.getInstance(getContext());
 
-
-
         Bundle b = this.getArguments();
         if (b != null) {
-
             ed_full_name.setText(b.getString("name_Payment"));
             ed_acc_num.setText(b.getString("rib_Payment"));
-
         }
         btn_validate.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -66,17 +62,12 @@ public class Add_Bene_Fragment extends Fragment {
                 fn.replace(R.id.fragment_payment,fragment).commit();
             }
         });
-
-
-
         backPressedDispatcher();
         return root;
     }
     private void add_bene(String full_name , String RIB){
         BeneModel model = new BeneModel(full_name,RIB);
         db.mainDao().insert(model);
-
-
     }
     private void backPressedDispatcher(){
         requireActivity().getOnBackPressedDispatcher().addCallback(getViewLifecycleOwner(), new OnBackPressedCallback(true) {
@@ -87,6 +78,5 @@ public class Add_Bene_Fragment extends Fragment {
                 getParentFragmentManager().beginTransaction().replace(R.id.fragment_payment, fragment1).commit();
             }
         });
-
     }
 }

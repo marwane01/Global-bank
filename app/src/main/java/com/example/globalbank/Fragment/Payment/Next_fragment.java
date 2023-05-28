@@ -23,18 +23,12 @@ import java.util.Locale;
 
 
 public class Next_fragment extends Fragment {
-
-
     TextView txt_name_from , txt_rib_from,txt_name_to,txt_rib_to,txt_amount,txt_note,btn_next_cancel;
     Button btn_next_confirmer;
     String reason ;
     DbOnline dbOnline;
-
     public Next_fragment() {
-        // Required empty public constructor
     }
-
-
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {

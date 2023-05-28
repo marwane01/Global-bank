@@ -28,6 +28,8 @@ import com.example.globalbank.database.online.DbOnline;
 import com.google.android.material.navigation.NavigationView;
 
 import java.util.ArrayList;
+import java.util.Collection;
+import java.util.Collections;
 import java.util.List;
 
 
@@ -46,8 +48,6 @@ public class HomeFragment extends Fragment implements NavigationView.OnNavigatio
     private ListView myList;
 
     private DbOnline dbOnline;
-
-
     private NavigationView navigationView;
     private DrawerLayout drawer;
     private Toolbar toolbar;
@@ -72,6 +72,7 @@ public class HomeFragment extends Fragment implements NavigationView.OnNavigatio
         btn_more = root.findViewById(R.id.btn_more);
         txt_balance = root.findViewById(R.id.txt_balance);
         txt_toolbar_title = root.findViewById(R.id.txtToolbarTitle);
+
 
         dbOnline = new DbOnline();
         dbOnline.setOnTransactionDataListener(this);
@@ -128,8 +129,10 @@ public class HomeFragment extends Fragment implements NavigationView.OnNavigatio
 
     @Override
     public void onTransactionDataReceived(ArrayList<Transaction_H> transactionList) {
+
         Adapter_List_History adapter = new Adapter_List_History(getContext(), transactionList);
         myList.setAdapter(adapter);
+
     }
 }
 

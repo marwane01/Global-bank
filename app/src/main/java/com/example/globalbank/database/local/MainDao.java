@@ -21,23 +21,14 @@ public interface MainDao {
     /*
     @Query("UPDATE table_Bene SET name=:name WHERE id = (SELECT MAX(id) FROM table_QRCode)")
     void UpdateNewQRCodename(String name);
-
-
     @Query("UPDATE table_QRCode SET `check`=:check WHERE id = (SELECT MAX(id) FROM table_QRCode)")
     void UpdateNewQRcheck(boolean check);
-
-
-
     @Update
     void updateQRcodecheck(QRCodeModel qrCodeModel);
-
     @Update
     void updateQRfavoritebyid(QRCodeModel qrCodeModel);
-
     @Update
     void updateQRnamebyid(QRCodeModel qrCodeModel);
-
-
     @Query("SELECT `check` FROM table_QRCode WHERE id =:sid")
     boolean getcheck(int sid);
 

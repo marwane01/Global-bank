@@ -1,16 +1,18 @@
 <?xml version="1.0" encoding="utf-8"?>
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:orientation="vertical"
     tools:context=".Fragment.mainActivity.ProfileFragment">
 
-    <!-- TODO: Update blank fragment layout -->
+
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:orientation="vertical"
+        android:layout_weight="1"
         android:layout_margin="10dp"
         >
 
@@ -80,6 +82,7 @@
 
                 />
             <TextView
+                android:id="@+id/txt_profile_address"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:textSize="17dp"
@@ -118,11 +121,12 @@
 
                 />
             <TextView
+                android:id="@+id/txt_profile_phone_n"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:textSize="17dp"
 
-                android:text="212 693845284"/>
+                android:text="+212 693845284"/>
 
         </LinearLayout>
 
@@ -143,15 +147,44 @@
 
                 />
             <TextView
+                android:id="@+id/txt_profile_email"
                 android:layout_width="wrap_content"
                 android:textSize="17dp"
                 android:layout_height="wrap_content"
                 android:text="marwane@gmail.com"/>
 
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            >
+
+            <View
+                android:layout_width="0dp"
+                android:layout_height="0dp"
+                android:layout_weight="1"/>
+            <Button
+                android:layout_marginTop="20dp"
+                android:id="@+id/btn_logout"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textColor="@color/black"
+                android:layout_marginBottom="20dp"
+                android:layout_marginRight="20dp"
+
+                android:text="Log_out"/>
+
+
         </LinearLayout>
 
 
 
-
     </LinearLayout>
-</FrameLayout>
+
+
+
+
+</LinearLayout>

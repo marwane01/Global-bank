@@ -60,9 +60,7 @@ public class MainActivity extends AppCompatActivity {
                 getSupportFragmentManager().beginTransaction().replace(R.id.flFragment, selectedFragment).commit();
             }
             return true;
-
         });
-
         Fragment initialFragment = new HomeFragment();
         getSupportFragmentManager().beginTransaction().replace(R.id.flFragment, initialFragment).commit();
 
@@ -71,10 +69,5 @@ public class MainActivity extends AppCompatActivity {
     }
 
 
-    private void logoutUser() {
-        FirebaseAuth.getInstance().signOut();
-        startActivity(new Intent(MainActivity.this, Login_Activity.class));
-        finish();
 
-    }
 }

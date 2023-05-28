@@ -3,19 +3,5 @@
     xmlns:tools="http://schemas.android.com/tools"
     tools:showIn="navigation_view">
 
-    <group android:checkableBehavior="single">
-        <item
-            android:id="@+id/nav_scan"
-            android:icon="@drawable/baseline_camera_24"
-            android:title="Scan" />
-        <item
-            android:id="@+id/nav_sca"
-            android:icon="@drawable/baseline_camera_24"
-            android:title="Scan" />
-        <item
-            android:id="@+id/nav_sc"
-            android:icon="@drawable/baseline_camera_24"
-            android:title="Scan" />
 
-    </group>
 </menu>
